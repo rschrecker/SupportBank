@@ -21,8 +21,9 @@ const data = parse('Transactions2014.csv').concat(parse('DodgyTransactions2015.c
 
 
 function update_amounts(item, dict) {
-    if (_(Object.keys(item)).difference([]).length !== 0) {
-        logger.debug('Unexpected headers: ' + Object.keys(item).join() + '\n')
+    const expected_headers = ['Date','From','To','Narrative','Amount']
+    if (_(Object.keys(item)).difference(expected_headers).length !== 0) {
+        logger.debug('Unexpected headers: headers were' + Object.keys(item).join())
     }
     if (dict[item.From] === undefined) {
         dict[item.From] = new Account(item.From)
@@ -30,8 +31,13 @@ function update_amounts(item, dict) {
     if (dict[item.To] === undefined) {
         dict[item.To] = new Account(item.To)
     }
-    dict[item.From].amount -= parseFloat(item.Amount);
-    dict[item.To].amount += parseFloat(item.Amount);
+    if (isNaN(parseFloat(item.Amount))) {
+        logger.debug('Amount was not a number: ' + item.Amount)
+    }
+    else {
+        dict[item.From].amount -= parseFloat(item.Amount);
+        dict[item.To].amount += parseFloat(item.Amount);
+    }
 }
 
 
@@ -50,4 +56,7 @@ if (command === 'List All') {
 else if (command.slice(0,5) === 'List ') {
     name = command.slice(5)
     data.forEach(function(item, index, array) {_print_if(item, name)})
+}
+else {
+    logger.debug('Unexpected user input: ' + command)
 }
