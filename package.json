@@ -5,6 +5,7 @@
     "csv-parse": "^2.0.0",
     "log4js": "^2.3.11",
     "moment": "^2.19.1",
-    "readline-sync": "^1.4.7"
+    "readline-sync": "^1.4.7",
+    "underscore": "^1.8.3"
   }
 }
