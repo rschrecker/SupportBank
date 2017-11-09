@@ -14,7 +14,7 @@ function fix_headers (item) {
     if (item.Parties !== undefined) {
         item.To = item.Parties.To;
         item.From = item.Parties.From;
-        delete item.parties
+        delete item.Parties
     }
     if (item.Value !== undefined) {
         item.Amount = item.Value

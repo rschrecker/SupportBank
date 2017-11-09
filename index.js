@@ -15,17 +15,7 @@ const Account = require('./account.js');
 const parse = require('./parse.js');
 const readlineSync = require('readline-sync');
 const update_amounts = require('./update_amounts.js')
-
-
-
-
-
-
-function _print_if(item, name) {
-    if (item.To === name || item.From === name) {
-        console.log(item)
-    }
-}
+const print_for_name = require('./print_for_name.js')
 
 
 let command = '';
@@ -33,8 +23,13 @@ let data = [];
 while (command !== 'exit') {
     command = readlineSync.prompt();
     if (command.slice(0, 12) === 'Import File ') {
-        file = 'Transactions2012.xml'//command.slice(12);
-        data = data.concat(parse(file))
+        file = command.slice(12);
+        try {
+            data = data.concat(parse(file))
+        }
+        catch (err) {
+            console.log(err.message)
+        }
     }
     else if (command === 'List All') {
         Accounts = {};
@@ -44,14 +39,12 @@ while (command !== 'exit') {
         console.log(Accounts)
     }
     else if (command.slice(0, 5) === 'List ') {
-        console.log('at list [name]')
         name = command.slice(5);
-        data.forEach(function (item, index, array) {
-            _print_if(item, name)
-        })
+        print_for_name(data, name)
+
     }
     else if (command !== 'exit') {
-        console.log('bad command')
+        console.log('invalid command')
         logger.error('Unexpected user input: ' + command)
     }
     if (data === []) {
