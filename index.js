@@ -14,14 +14,8 @@ logger.debug('starting up');
 const Account = require('./account.js');
 const parse = require('./parse.js');
 const readlineSync = require('readline-sync');
-
 const update_amounts = require('./update_amounts.js')
 
-ob = {a:'A',b:'B'}
-console.log(ob)
-console.log(ob.a)
-console.log(ob['a'])
-console.log(ob[0])
 
 function _print_if(item, name) {
     if (item.To === name || item.From === name) {
@@ -36,7 +30,7 @@ while (command !== 'exit') {
     command = readlineSync.prompt();
     if (command.slice(0, 12) === 'Import File ') {
         file = 'Transactions2013.json'//command.slice(12);
-        console.log(data)
+        data = data.concat(parse(file))
     }
     else if (command === 'List All') {
         Accounts = {};

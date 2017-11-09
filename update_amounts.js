@@ -1,5 +1,5 @@
 const log4js = require('log4js');
-const logger = log4js.getLogger('index.js');
+const logger = log4js.getLogger('update_amounts.js');
 const _ = require('underscore');
 const Account = require('./account.js')
 
