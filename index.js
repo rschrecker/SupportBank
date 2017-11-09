@@ -17,6 +17,10 @@ const readlineSync = require('readline-sync');
 const update_amounts = require('./update_amounts.js')
 
 
+
+
+
+
 function _print_if(item, name) {
     if (item.To === name || item.From === name) {
         console.log(item)
@@ -29,7 +33,7 @@ let data = [];
 while (command !== 'exit') {
     command = readlineSync.prompt();
     if (command.slice(0, 12) === 'Import File ') {
-        file = 'Transactions2013.json'//command.slice(12);
+        file = 'Transactions2012.xml'//command.slice(12);
         data = data.concat(parse(file))
     }
     else if (command === 'List All') {
