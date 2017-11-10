@@ -4,21 +4,28 @@ const parsecsv = require('csv-parse/lib/sync');
 const fs = require('fs');
 const parsexml = require('pixl-xml').parse;
 
-function fix_headers (item) {
-    if (item.FromAccount !== undefined) {
-        item.From = item.FromAccount;
-        item.To = item.ToAccount;
-        delete item.FromAccount
-        delete item.ToAccount
+function add_transaction(list, item, extension) {
+    if (extension === 'csv') {
+        t = new Transaction(item.Date, item.From, item.To, item.Narrative, item.Amount)
     }
-    if (item.Parties !== undefined) {
-        item.To = item.Parties.To;
-        item.From = item.Parties.From;
-        delete item.Parties
+    if (extension === 'json') {
+        t = new Transaction(item.Date, item.FromAccount, item.ToAccount, item.Narrative, item.Amount)
     }
-    if (item.Value !== undefined) {
-        item.Amount = item.Value
-        delete item.Value
+    if (extension === 'xml') {
+        t = new Transaction(item.Date, item.Parties.From, item.Parties.To, item.Description, item.Value)
+
+    }
+    list.push(t)
+}
+
+
+class Transaction {
+    constructor(date, from, to, narrative, amount) {
+        this.Date = date;
+        this.From = from;
+        this.To = to;
+        this.Narrative = narrative;
+        this.Amount = amount
     }
 }
 
@@ -39,10 +46,11 @@ function parse (file) {
     else {
         logger.error('Unexpected file extension: filename was ' + file)
     }
+    transactions = []
     res.forEach(function(item, index, srray) {
-        fix_headers(item)
+        add_transaction(transactions, item, extension)
     });
-    return res
+    return transactions
 }
 
 module.exports = parse;

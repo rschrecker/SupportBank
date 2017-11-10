@@ -29,18 +29,25 @@ while (command !== 'exit') {
         }
         catch (err) {
             console.log(err.message)
+            logger.error('Error opening file: ' + err.message)
         }
     }
     else if (command === 'List All') {
-        Accounts = {};
+        let Accounts = {};
         data.forEach(function (item, index, array) {
             update_amounts(item, Accounts)
         });
         console.log(Accounts)
     }
     else if (command.slice(0, 5) === 'List ') {
-        name = command.slice(5);
+        let name = command.slice(5);
         print_for_name(data, name)
+
+    }
+    else if (command.slice(0,12) === 'Export File ') {
+        let file = command.slice(12)
+        //let string = export.to_string(data)
+        //export.write(string, file)
 
     }
     else if (command !== 'exit') {
