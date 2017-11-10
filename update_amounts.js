@@ -1,11 +1,11 @@
 const log4js = require('log4js');
 const logger = log4js.getLogger('update_amounts.js');
 const _ = require('underscore');
-const Account = require('./account.js')
+const Account = require('./account.js');
 
 
 function update_amounts(item, dict) {
-    const expected_headers = ['Date','From','To','Narrative','Amount']
+    const expected_headers = ['Date','From','To','Narrative','Amount'];
     if (_(Object.keys(item)).difference(expected_headers).length !== 0) {
         logger.error('Unexpected headers: headers were ' + Object.keys(item).join())
     }

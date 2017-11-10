@@ -46,7 +46,7 @@ function parse (file) {
     else {
         logger.error('Unexpected file extension: filename was ' + file)
     }
-    transactions = []
+    transactions = [];
     res.forEach(function(item, index, srray) {
         add_transaction(transactions, item, extension)
     });

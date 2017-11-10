@@ -12,4 +12,4 @@ function print_for_name(data, name) {
 }
 
 
-module.exports = print_for_name
+module.exports = print_for_name;

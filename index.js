@@ -14,8 +14,8 @@ logger.debug('starting up');
 const Account = require('./account.js');
 const parse = require('./parse.js');
 const readlineSync = require('readline-sync');
-const update_amounts = require('./update_amounts.js')
-const print_for_name = require('./print_for_name.js')
+const update_amounts = require('./update_amounts.js');
+const print_for_name = require('./print_for_name.js');
 
 
 let command = '';
@@ -28,7 +28,7 @@ while (command !== 'exit') {
             data = data.concat(parse(file))
         }
         catch (err) {
-            console.log(err.message)
+            console.log(err.message);
             logger.error('Error opening file: ' + err.message)
         }
     }
@@ -45,13 +45,15 @@ while (command !== 'exit') {
 
     }
     else if (command.slice(0,12) === 'Export File ') {
-        let file = command.slice(12)
-        //let string = export.to_string(data)
-        //export.write(string, file)
+        let file = command.slice(12);
+        let parts = file.split('.')
+        let extension = parts[parts.length - 1]
+        //let string = stringify(data, extension)
+        //fs.writeFileSync(string, file)
 
     }
     else if (command !== 'exit') {
-        console.log('invalid command')
+        console.log('invalid command');
         logger.error('Unexpected user input: ' + command)
     }
     if (data === []) {
